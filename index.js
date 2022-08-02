@@ -9,7 +9,7 @@ const jose = require('jose')
 const SD_PATH = process.argv.slice(2)[0] || CONF + 'self-description.json'
 const selfDescription = require(SD_PATH)
 const CURRENT_TIME = new Date().getTime()
-const BASE_URL = 'https://compliance.gaia-x.eu'
+const BASE_URL = process.env.BASE_URL || 'https://compliance.gaia-x.eu'
 
 const OUTPUT_DIR = process.argv.slice(2)[1] || './output/'
 createOutputFolder(OUTPUT_DIR)
@@ -19,8 +19,12 @@ const TYPE_API_ATH = {
   'LegalPerson': 'participant'
 }
 
+function getApiVersionedUrl() {
+  return `${BASE_URL}/api/v${process.env.API_VERSION || '2204'}`
+}
+
 async function canonize(selfDescription) {
-  const URL = BASE_URL + '/api/v2204/normalize'
+  const URL = `${getApiVersionedUrl()}/normalize`
   const { data } = await axios.post(URL, selfDescription)
 
   return data
@@ -116,7 +120,7 @@ function logger(...msg) {
 }
 
 async function signSd(selfDescription, proof) {
-  const URL = BASE_URL + '/api/v2204/sign'
+  const URL = `${getApiVersionedUrl()}/sign`
   const { data } = await axios.post(URL, { ...selfDescription, proof })
 
   return data
@@ -125,7 +129,7 @@ async function signSd(selfDescription, proof) {
 async function verifySelfDescription(selfDescription) {
   const credentialType = selfDescription.selfDescriptionCredential['@type'].find(el => el !== 'VerifiableCredential')
   const type = TYPE_API_ATH[credentialType] || TYPE_API_ATH.LegalPerson
-  const URL = `${BASE_URL}/api/v2204/${type}/verify/raw`
+  const URL = `${getApiVersionedUrl()}/${type}/verify/raw`
   const { data } = await axios.post(URL, selfDescription)
 
   return data
