@@ -10,17 +10,18 @@ const SD_PATH = process.argv.slice(2)[0] || CONF + 'self-description.json'
 const selfDescription = require(SD_PATH)
 const CURRENT_TIME = new Date().getTime()
 const BASE_URL = process.env.BASE_URL || 'https://compliance.gaia-x.eu'
+const API_VERSION = process.env.API_VERSION || '2206'
 
 const OUTPUT_DIR = process.argv.slice(2)[1] || './output/'
 createOutputFolder(OUTPUT_DIR)
 
 const TYPE_API_ATH = {
-  'ServiceOfferingExperimental': 'service-offering',
-  'LegalPerson': 'participant'
+  ServiceOfferingExperimental: 'service-offering',
+  LegalPerson: 'participant',
 }
 
 function getApiVersionedUrl() {
-  return `${BASE_URL}/api/v${process.env.API_VERSION || '2204'}`
+  return `${BASE_URL}/v${API_VERSION}/api`
 }
 
 async function canonize(selfDescription) {
@@ -36,7 +37,10 @@ function sha256(input) {
 
 async function sign(hash) {
   const algorithm = 'PS256'
-  const rsaPrivateKey = await jose.importPKCS8(process.env.PRIVATE_KEY, algorithm)
+  const rsaPrivateKey = await jose.importPKCS8(
+    process.env.PRIVATE_KEY,
+    algorithm
+  )
 
   const jws = await new jose.CompactSign(new TextEncoder().encode(hash))
     .setProtectedHeader({ alg: 'PS256', b64: false, crit: ['b64'] })
@@ -47,11 +51,12 @@ async function sign(hash) {
 
 async function createProof(hash) {
   const proof = {
-    type: 'JsonWebKey2020',
+    type: 'JsonWebSignature2020',
     created: new Date(CURRENT_TIME).toISOString(),
     proofPurpose: 'assertionMethod',
-    verificationMethod: process.env.VERIFICATION_METHOD ?? 'did:web:compliance.lab.gaia-x.eu',
-    jws: await sign(hash)
+    verificationMethod:
+      process.env.VERIFICATION_METHOD ?? 'did:web:compliance.lab.gaia-x.eu',
+    jws: await sign(hash),
   }
 
   return proof
@@ -67,7 +72,10 @@ async function verify(jws) {
   try {
     const result = await jose.compactVerify(jws, pubkey)
 
-    return { protectedHeader: result.protectedHeader, content: new TextDecoder().decode(result.payload) }
+    return {
+      protectedHeader: result.protectedHeader,
+      content: new TextDecoder().decode(result.payload),
+    }
   } catch (error) {
     return {}
   }
@@ -76,7 +84,11 @@ async function verify(jws) {
 async function createSignedSdFile(selfDescription, proof) {
   const content = proof ? { ...selfDescription, proof } : selfDescription
   const status = proof ? 'self-signed' : 'complete'
-  const type = proof ? selfDescription['@type'].find(t => t !== 'VerifiableCredential') : selfDescription.selfDescriptionCredential['@type'].find(t => t !== 'VerifiableCredential')
+  const type = proof
+    ? selfDescription['type'].find((t) => t !== 'VerifiableCredential')
+    : selfDescription.selfDescriptionCredential['type'].find(
+        (t) => t !== 'VerifiableCredential'
+      )
   const data = JSON.stringify(content, null, 2)
   const filename = `${OUTPUT_DIR}${CURRENT_TIME}_${status}_${type}.json`
 
@@ -94,17 +106,17 @@ async function createDIDFile() {
 
   const did = {
     '@context': ['https://www.w3.org/ns/did/v1'],
-    'id': process.env.VERIFICATION_METHOD,
-    'verificationMethod': [
+    id: process.env.VERIFICATION_METHOD,
+    verificationMethod: [
       {
         '@context': 'https://w3c-ccg.github.io/lds-jws2020/contexts/v1/',
-        'id': process.env.VERIFICATION_METHOD,
-        'type': "JsonWebKey2020",
-        'controller': 'did:web:compliance.gaia-x.eu#JWK2020-RSA',
-        publicKeyJwk
-      }
+        id: process.env.VERIFICATION_METHOD,
+        type: 'JsonWebKey2020',
+        controller: 'did:web:compliance.gaia-x.eu#JWK2020-RSA',
+        publicKeyJwk,
+      },
     ],
-    'assertionMethod': [process.env.VERIFICATION_METHOD + '#JWK2020-RSA']
+    assertionMethod: [process.env.VERIFICATION_METHOD + '#JWK2020-RSA'],
   }
 
   const data = JSON.stringify(did, null, 2)
@@ -127,7 +139,9 @@ async function signSd(selfDescription, proof) {
 }
 
 async function verifySelfDescription(selfDescription) {
-  const credentialType = selfDescription.selfDescriptionCredential['@type'].find(el => el !== 'VerifiableCredential')
+  const credentialType = selfDescription.selfDescriptionCredential['type'].find(
+    (el) => el !== 'VerifiableCredential'
+  )
   const type = TYPE_API_ATH[credentialType] || TYPE_API_ATH.LegalPerson
   const URL = `${getApiVersionedUrl()}/${type}/verify/raw`
   const { data } = await axios.post(URL, selfDescription)
@@ -139,7 +153,7 @@ async function createOutputFolder(dir) {
   try {
     await fs.access(dir)
   } catch (e) {
-    await fs.mkdir(dir);
+    await fs.mkdir(dir)
   }
 }
 
@@ -153,10 +167,20 @@ async function main() {
     logger(`📈 Hashed canonized SD ${hash}`)
 
     const proof = await createProof(hash)
-    logger(proof ? '🔒 SD signed successfully (local)' : '❌ SD signing failed (local)')
+    logger(
+      proof
+        ? '🔒 SD signed successfully (local)'
+        : '❌ SD signing failed (local)'
+    )
 
-    const verificationResult = await verify(proof.jws.replace('..', `.${hash}.`))
-    logger(verificationResult?.content === hash ? '✅ Verification successful (local)' : '❌ Verification failed (local)')
+    const verificationResult = await verify(
+      proof.jws.replace('..', `.${hash}.`)
+    )
+    logger(
+      verificationResult?.content === hash
+        ? '✅ Verification successful (local)'
+        : '❌ Verification failed (local)'
+    )
 
     const filenameSignedSd = await createSignedSdFile(selfDescription, proof)
     logger(`📁 ${filenameSignedSd} saved`)
@@ -168,20 +192,31 @@ async function main() {
     logger('🔍 Checking Self Description with the Compliance Service...')
 
     const complianceCredential = await signSd(selfDescription, proof)
-    logger(complianceCredential ? '🔒 SD signed successfully (compliance service)' : '❌ SD signing failed (compliance service)')
+    logger(
+      complianceCredential
+        ? '🔒 SD signed successfully (compliance service)'
+        : '❌ SD signing failed (compliance service)'
+    )
 
     if (complianceCredential) {
-      const completeSd = { selfDescriptionCredential: { ...selfDescription, proof }, complianceCredential: complianceCredential.complianceCredential }
+      const completeSd = {
+        selfDescriptionCredential: { ...selfDescription, proof },
+        complianceCredential: complianceCredential.complianceCredential,
+      }
 
       const verificationResultRemote = await verifySelfDescription(completeSd)
-      logger(verificationResultRemote?.conforms === true ? '✅ Verification successful (compliance service)' : `❌ Verification failed (compliance service): ${verificationResultRemote.conforms}`)
+      logger(
+        verificationResultRemote?.conforms === true
+          ? '✅ Verification successful (compliance service)'
+          : `❌ Verification failed (compliance service): ${verificationResultRemote.conforms}`
+      )
 
       const filenameCompleteSd = await createSignedSdFile(completeSd)
       logger(`📁 ${filenameCompleteSd} saved`)
     }
   } catch (error) {
-    console.dir("Something went wrong:")
-    console.dir(error?.response?.data, { depth: null, colors: true });
+    console.dir('Something went wrong:')
+    console.dir(error?.response?.data, { depth: null, colors: true })
   }
 }
 

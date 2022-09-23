@@ -1,12 +1,12 @@
-.env
+.env*
 node_modules/
 *.pem
-*.json
+output/*.json
 !package.json
 !package-lock.json
 *DS_Store
 config/*.env
-config/self-description.json
-config/self-description.json
+config/self-description-ignore
 config/example.env
-config/self-description.json
+output/old
+old.json
