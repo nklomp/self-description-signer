@@ -17,43 +17,44 @@
 
    ```json
    {
-     "@context": [
-       "https://www.w3.org/2018/credentials/v1",
-       "http://w3id.org/gaia-x/participant",
-       "https://registry.gaia-x.eu/v2206/api/shape/files?file=participant&type=ttl"
-     ],
-     "type": ["VerifiableCredential", "LegalPerson"],
-     "id": "https://delta-dao.com/.well-known/participant.json",
-     "issuer": "did:web:delta-dao.com",
-     "issuanceDate": "2022-09-15T20:05:20.997Z",
-     "credentialSubject": {
-       "id": "did:web:delta-dao.com",
-       "gx-participant:legalName": "deltaDAO AG",
-       "gx-participant:registrationNumber": {
-         "gx-participant:registrationNumberType": "leiCode",
-         "gx-participant:registrationNumberNumber": "391200FJBNU0YW987L26"
+     "selfDescriptionCredential": {
+       "@context": [
+         "https://www.w3.org/2018/credentials/v1",
+         "https://registry.gaia-x.eu/v2206/api/shape"
+       ],
+       "type": ["VerifiableCredential", "LegalPerson"],
+       "id": "https://compliance.gaia-x.eu/.well-known/participant.json",
+       "issuer": "did:web:compliance.gaia-x.eu",
+       "issuanceDate": "2022-09-23T23:23:23.235Z",
+       "credentialSubject": {
+         "id": "did:web:compliance.gaia-x.eu",
+         "gx-participant:name": "Gaia-X AISBL",
+         "gx-participant:legalName": "Gaia-X European Association for Data and Cloud AISBL",
+         "gx-participant:registrationNumber": {
+           "gx-participant:registrationNumberType": "local",
+           "gx-participant:registrationNumberNumber": "0762747721"
+         },
+         "gx-participant:headquarterAddress": {
+           "gx-participant:addressCountryCode": "BE",
+           "gx-participant:addressCode": "BE-BRU",
+           "gx-participant:street-address": "Avenue des Arts 6-9",
+           "gx-participant:postal-code": "1210"
+         },
+         "gx-participant:legalAddress": {
+           "gx-participant:addressCountryCode": "BE",
+           "gx-participant:addressCode": "BE-BRU",
+           "gx-participant:street-address": "Avenue des Arts 6-9",
+           "gx-participant:postal-code": "1210"
+         },
+         "gx-participant:termsAndConditions": "70c1d713215f95191a11d38fe2341faed27d19e083917bc8732ca4fea4976700"
        },
-       "gx-participant:blockchainAccountId": "0x4C84a36fCDb7Bc750294A7f3B5ad5CA8F74C4A52",
-       "gx-participant:headquarterAddress": {
-         "gx-participant:addressCountryCode": "DE",
-         "gx-participant:addressCode": "DE-HH",
-         "gx-participant:streetAddress": "Geibelstraße 46b",
-         "gx-participant:postalCode": "22303"
-       },
-       "gx-participant:legalAddress": {
-         "gx-participant:addressCountryCode": "DE",
-         "gx-participant:addressCode": "DE-HH",
-         "gx-participant:streetAddress": "Geibelstraße 46b",
-         "gx-participant:postalCode": "22303"
-       },
-       "gx-participant:termsAndConditions": "70c1d713215f95191a11d38fe2341faed27d19e083917bc8732ca4fea4976700"
-     },
-     "proof": {
-       "type": "JsonWebSignature2020",
-       "created": "2022-09-23T17:32:11.262Z",
-       "proofPurpose": "assertionMethod",
-       "verificationMethod": "did:web:compliance.lab.gaia-x.eu",
-       "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..L7SO94T8OQgz7XeZVPaMBGqNP4KpCxog7IP2GNa9-lW5drQCglb4bL4phF10xqd1OdVFGWczbDSuEg0umazQWcTUzOG0jJWnHtMqGTAWy3rOcJXUv4C2Gkvq_dmBSy-wXwYPPRmDGWBBok-_o6-sZwMP5uycCyA5-Ss-IMyj08Q7MJ4AxL-iUCyo5dmlKfhL2gtlF1jDpUuBfygTOlaw6lllaNE19k0nkb7XNKGqZ-WRHKlayZI5oZRio6sMr9sLV4mec5ie_xtjgmrRPyQKnR4UgvplXT89jpWoBiCNfQV_ynUpmGJsznaJQxY179pWCRe65dyiF_2EkGgQ-A7f1A"
+       "proof": {
+         "type": "JsonWebSignature2020",
+         "created": "2022-09-25T22:28:48.408Z",
+         "proofPurpose": "assertionMethod",
+         "verificationMethod": "did:web:compliance.gaia-x.eu",
+         "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..GpHT0twTcvRG11eH8YdGTzTgYf6jZYH2VncPIzOPnYaoRIB1tdYDHI0H8S1wU81ll-sYdDepWP5fbTN-ah_6SbD2J_QaCBt22hKtSrWumST6gaBXN_sntASwdnLaYmauNoePRDh-mZapjc40a4ckHVasaxgJ6NrnLhoUCDH33IGjWn5tC3qtntxhUpgiyCgxZvsDTmzoY4JdEp-9lG_xdFJOpUSIzEbuGYXa_Gmc0qmODELiZH7G9-AxmYh69vOopaQEAzUGrHcoHRtNN0iM8DcwmmZoWdGW5v_4qqnQvjB6bncHwFknC-L7UYV62uezA8HiS2T_9zrCiQW6U-GTAg"
+       }
      }
    }
    ```
@@ -65,11 +66,11 @@
    ```json
    {
      "@context": ["https://www.w3.org/ns/did/v1"],
-     "id": "did:web:compliance.lab.gaia-x.eu",
+     "id": "did:web:compliance.gaia-x.eu",
      "verificationMethod": [
        {
          "@context": "https://w3c-ccg.github.io/lds-jws2020/contexts/v1/",
-         "id": "did:web:compliance.lab.gaia-x.eu",
+         "id": "did:web:compliance.gaia-x.eu",
          "type": "JsonWebKey2020",
          "controller": "did:web:compliance.gaia-x.eu#JWK2020-RSA",
          "publicKeyJwk": {
@@ -77,11 +78,11 @@
            "n": "ulmXEa0nehbR338h6QaWLjMqfXE7mKA9PXoC_6_8d26xKQuBKAXa5k0uHhzQfNlAlxO-IpCDgf9cVzxIP-tkkefsjrXc8uvkdKNK6TY9kUxgUnOviiOLpHe88FB5dMTH6KUUGkjiPfq3P0F9fXHDEoQkGSpWui7eD897qSEdXFre_086ns3I8hSVCxoxlW9guXa_sRISIawCKT4UA3ZUKYyjtu0xRy7mRxNFh2wH0iSTQfqf4DWUUThX3S-jeRCRxqOGQdQlZoHym2pynJ1IYiiIOMO9L2IQrQl35kx94LGHiF8r8CRpLrgYXTVd9U17-nglrUmJmryECxW-555ppQ",
            "e": "AQAB",
            "alg": "PS256",
-           "x5u": "https://compliance.lab.gaia-x.eu/.well-known/x509CertificateChain.pem"
+           "x5u": "https://compliance.gaia-x.eu/.well-known/x509CertificateChain.pem"
          }
        }
      ],
-     "assertionMethod": ["did:web:compliance.lab.gaia-x.eu#JWK2020-RSA"]
+     "assertionMethod": ["did:web:compliance.gaia-x.eu#JWK2020-RSA"]
    }
    ```
 
@@ -96,59 +97,58 @@
      "selfDescriptionCredential": {
        "@context": [
          "https://www.w3.org/2018/credentials/v1",
-         "http://w3id.org/gaia-x/participant",
-         "https://registry.gaia-x.eu/v2206/api/shape/files?file=participant&type=ttl"
+         "https://registry.gaia-x.eu/v2206/api/shape"
        ],
        "type": ["VerifiableCredential", "LegalPerson"],
-       "id": "https://delta-dao.com/.well-known/participant.json",
-       "issuer": "did:web:delta-dao.com",
-       "issuanceDate": "2022-09-15T20:05:20.997Z",
+       "id": "https://compliance.gaia-x.eu/.well-known/participant.json",
+       "issuer": "did:web:compliance.gaia-x.eu",
+       "issuanceDate": "2022-09-23T23:23:23.235Z",
        "credentialSubject": {
-         "id": "did:web:delta-dao.com",
-         "gx-participant:legalName": "deltaDAO AG",
+         "id": "did:web:compliance.gaia-x.eu",
+         "gx-participant:name": "Gaia-X AISBL",
+         "gx-participant:legalName": "Gaia-X European Association for Data and Cloud AISBL",
          "gx-participant:registrationNumber": {
-           "gx-participant:registrationNumberType": "leiCode",
-           "gx-participant:registrationNumberNumber": "391200FJBNU0YW987L26"
+           "gx-participant:registrationNumberType": "local",
+           "gx-participant:registrationNumberNumber": "0762747721"
          },
-         "gx-participant:blockchainAccountId": "0x4C84a36fCDb7Bc750294A7f3B5ad5CA8F74C4A52",
          "gx-participant:headquarterAddress": {
-           "gx-participant:addressCountryCode": "DE",
-           "gx-participant:addressCode": "DE-HH",
-           "gx-participant:streetAddress": "Geibelstraße 46b",
-           "gx-participant:postalCode": "22303"
+           "gx-participant:addressCountryCode": "BE",
+           "gx-participant:addressCode": "BE-BRU",
+           "gx-participant:street-address": "Avenue des Arts 6-9",
+           "gx-participant:postal-code": "1210"
          },
          "gx-participant:legalAddress": {
-           "gx-participant:addressCountryCode": "DE",
-           "gx-participant:addressCode": "DE-HH",
-           "gx-participant:streetAddress": "Geibelstraße 46b",
-           "gx-participant:postalCode": "22303"
+           "gx-participant:addressCountryCode": "BE",
+           "gx-participant:addressCode": "BE-BRU",
+           "gx-participant:street-address": "Avenue des Arts 6-9",
+           "gx-participant:postal-code": "1210"
          },
          "gx-participant:termsAndConditions": "70c1d713215f95191a11d38fe2341faed27d19e083917bc8732ca4fea4976700"
        },
        "proof": {
          "type": "JsonWebSignature2020",
-         "created": "2022-09-23T17:32:11.262Z",
+         "created": "2022-09-25T22:28:48.408Z",
          "proofPurpose": "assertionMethod",
-         "verificationMethod": "did:web:compliance.lab.gaia-x.eu",
-         "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..L7SO94T8OQgz7XeZVPaMBGqNP4KpCxog7IP2GNa9-lW5drQCglb4bL4phF10xqd1OdVFGWczbDSuEg0umazQWcTUzOG0jJWnHtMqGTAWy3rOcJXUv4C2Gkvq_dmBSy-wXwYPPRmDGWBBok-_o6-sZwMP5uycCyA5-Ss-IMyj08Q7MJ4AxL-iUCyo5dmlKfhL2gtlF1jDpUuBfygTOlaw6lllaNE19k0nkb7XNKGqZ-WRHKlayZI5oZRio6sMr9sLV4mec5ie_xtjgmrRPyQKnR4UgvplXT89jpWoBiCNfQV_ynUpmGJsznaJQxY179pWCRe65dyiF_2EkGgQ-A7f1A"
+         "verificationMethod": "did:web:compliance.gaia-x.eu",
+         "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..GpHT0twTcvRG11eH8YdGTzTgYf6jZYH2VncPIzOPnYaoRIB1tdYDHI0H8S1wU81ll-sYdDepWP5fbTN-ah_6SbD2J_QaCBt22hKtSrWumST6gaBXN_sntASwdnLaYmauNoePRDh-mZapjc40a4ckHVasaxgJ6NrnLhoUCDH33IGjWn5tC3qtntxhUpgiyCgxZvsDTmzoY4JdEp-9lG_xdFJOpUSIzEbuGYXa_Gmc0qmODELiZH7G9-AxmYh69vOopaQEAzUGrHcoHRtNN0iM8DcwmmZoWdGW5v_4qqnQvjB6bncHwFknC-L7UYV62uezA8HiS2T_9zrCiQW6U-GTAg"
        }
      },
      "complianceCredential": {
        "@context": ["https://www.w3.org/2018/credentials/v1"],
        "type": ["VerifiableCredential", "ParticipantCredential"],
-       "id": "https://catalogue.gaia-x.eu/credentials/ParticipantCredential/1663954332409",
-       "issuer": "did:web:compliance.lab.gaia-x.eu",
-       "issuanceDate": "2022-09-23T17:32:12.409Z",
+       "id": "https://catalogue.gaia-x.eu/credentials/ParticipantCredential/1664144933260",
+       "issuer": "did:web:compliance.gaia-x.eu",
+       "issuanceDate": "2022-09-25T22:28:53.260Z",
        "credentialSubject": {
-         "id": "did:web:delta-dao.com",
-         "hash": "3a72f5b49ec60f4f9b150d330c048740bd4d9a050696941d5b7f638e75088dcb"
+         "id": "did:web:compliance.gaia-x.eu",
+         "hash": "44166d1e997147db7fcbb3a8d201af9bf830a291b1e8837954017f5440785ede"
        },
        "proof": {
          "type": "JsonWebSignature2020",
-         "created": "2022-09-23T17:32:12.409Z",
+         "created": "2022-09-25T22:28:53.260Z",
          "proofPurpose": "assertionMethod",
-         "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..I5sUraPpKC0pxPTPOARnwK-Ijiepx7UlCogprnKkTyT5xAI0JRrftqCZSZJyXfbDpWzTYGMaticOrfutv8Mxah_J5OgSoWX4rKs7CMR2q97FOOJjUeIYe4mKRL1V9WjgtXc_ire-Hyuz6KTanuUxDo3mog9tmumhjUcokGCmHoDXY-UaoleOWqgTaibEX0vajH0-3SCaTiGLIwwKYXjkxC5McV_j6cWhCGOWOe7Y6JMzNCu1SWO6d6pfvetq5DdoOAn4_LqMwL2Q6nEEN3ulZynaTD8kiB0swcCjUKoBtudtbF8VdCnFu7Jv4UI0zFpY4GdWpzgQYFO_YYxawpUcMA",
-         "verificationMethod": "did:web:compliance.lab.gaia-x.eu"
+         "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..s4rOWCaRZ9Ycc1N85vMo2PnHQJVGNM2xNVW2L1VksGzL8I3NQbZWpppwq1eGfbLGGGs0vS4IO-LpuVpCtJpnjdW98nmgxk1zugG-Y9sYqCk79mFDFNIdzMCYrl9IZU4jiOKzttd_5lkQdsPihJ7up4vuTiRfExK7CllMvEx8YIREPya_OxhpTy8JbRWfUXgJyxrRpCI1KWyp1ldRuiO0ApRVk_VGUWqCCrOAxnIBTIXuTdfd3xPjGVcG6HuKJ4I819WHCvG_fm1L6PrKYx4JTr9w9OzO0eGXPw4s8oMshJVS4kI39rcY5cLaf7b6sehLgJXGZkY1_zNM2EmSy1zj4w",
+         "verificationMethod": "did:web:compliance.gaia-x.eu"
        }
      }
    }
