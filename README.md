@@ -7,10 +7,20 @@
 
 1. Update the self description in `self-description.json`, replace it with your own. See details in the [Architecture Document](https://gaia-x.gitlab.io/policy-rules-committee/trust-framework/participant/)
 2. Create a new `.env` file in the `/config` directory with `PRIVATE_KEY`, `CERTIFICATE`, `VERIFICATION_METHOD` and `X5U_URL` as properties. Feel free to use the example file `example.env` located in the `/config` directory. You could quickly copy the file with the following command:
-```sh
-cp config/example.env config/.env
-```
-Make sure to provide your own values for the above mentioned properties in the newly created `.env` file.
+    ```sh
+    cp config/example.env config/.env
+    ```
+    Make sure to provide your own values for the above mentioned properties in the newly created `.env` file.
+
+
+
+    **IMPORTANT:** You need to create your own `CERTIFICATE` and `PRIVATE_KEY` and put it into the created `/config/.env` file. This certificate needs to be issued by a Gaia-X endorsed trust anchor. You can find the list of endorsed trust anchors here: https://gaia-x.gitlab.io/policy-rules-committee/trust-framework/trust_anchors/  
+
+    **NOTE:** It is not sufficient to simply create create a new local key pair which is not issued by a trust anchor because verification will fail and the trust servcie won't sign your Self Description!
+
+    > You can find more information on setting up your own certificate here: 
+    > - https://gitlab.com/gaia-x/lab/compliance/gx-compliance#how-to-setup-certificates
+
 
 3. Install dependencies `npm i` and execute the script `node index.js` (node@16 or higher required).
    - Alternatively, the script can be run with docker
