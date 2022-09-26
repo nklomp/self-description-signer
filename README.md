@@ -21,6 +21,13 @@
     > You can find more information on setting up your own certificate here: 
     > - https://gitlab.com/gaia-x/lab/compliance/gx-compliance#how-to-setup-certificates
 
+    `X5U_URL` - You need to generate a `.pem` file with the certificate chain of your certificate and upload it to your server (make it accessible via URI). You can find an example here: https://www.delta-dao.com/.well-known/x509CertificateChain.pem 
+
+    You can use [whatsmychaincert.com](https://whatsmychaincert.com/) as a helper tool to generate your certificate chain using metadata from your certificate. Make sure to check "Include Root Certificate" checkbox.
+
+    `VERIFICATION_METHOD` - The `did:web` has to resolve to the path of your `did.json`. It defaults to `your-domain.com/.well-known/did.json` if you enter `did:web:your-domain.com`. You can also specify a specific path, check the `did:web` [specifications](https://w3c-ccg.github.io/did-method-web/#optional-path-considerations) for this.
+
+    > More info on x5u: https://www.rfc-editor.org/rfc/rfc7517#section-4.6
 
 3. Install dependencies `npm i` and execute the script `node index.js` (node@16 or higher required).
    - Alternatively, the script can be run with docker
