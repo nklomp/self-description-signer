@@ -10,6 +10,8 @@
 ```sh
 cp config/example.env config/.env
 ```
+Make sure to provide your own values for the above mentioned attributes in the newly created `.env` file.
+
 3. Install dependencies `npm i` and execute the script `node index.js` (node@16 or higher required).
    - Alternatively, the script can be run with docker
      1. Build the container with `docker build -t self-description-signer .`
