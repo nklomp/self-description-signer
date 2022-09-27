@@ -6,29 +6,7 @@
 ## How To Use
 
 1. Update the self description in `self-description.json`, replace it with your own. See details in the [Architecture Document](https://gaia-x.gitlab.io/policy-rules-committee/trust-framework/participant/)
-2. Create a new `.env` file in the `/config` directory with `PRIVATE_KEY`, `CERTIFICATE`, `VERIFICATION_METHOD` and `X5U_URL` as properties. Feel free to use the example file `example.env` located in the `/config` directory. You could quickly copy the file with the following command:
-    ```sh
-    cp config/example.env config/.env
-    ```
-    Make sure to provide your own values for the above mentioned properties in the newly created `.env` file.
-
-
-
-    **IMPORTANT:** You need to create your own `CERTIFICATE` and `PRIVATE_KEY` and put it into the created `/config/.env` file. This certificate needs to be issued by a Gaia-X endorsed trust anchor. You can find the list of endorsed trust anchors here: https://gaia-x.gitlab.io/policy-rules-committee/trust-framework/trust_anchors/  
-
-    **NOTE:** It is not sufficient to simply create create a new local key pair which is not issued by a trust anchor because verification will fail and the trust servcie won't sign your Self Description!
-
-    > You can find more information on setting up your own certificate here: 
-    > - https://gitlab.com/gaia-x/lab/compliance/gx-compliance#how-to-setup-certificates
-
-    `X5U_URL` - You need to generate a `.pem` file with the certificate chain of your certificate and upload it to your server (make it accessible via URI). You can find an example here: https://www.delta-dao.com/.well-known/x509CertificateChain.pem 
-
-    You can use [whatsmychaincert.com](https://whatsmychaincert.com/) as a helper tool to generate your certificate chain using metadata from your certificate. Make sure to check "Include Root Certificate" checkbox.
-
-    `VERIFICATION_METHOD` - The `did:web` has to resolve to the path of your `did.json`. It defaults to `your-domain.com/.well-known/did.json` if you enter `did:web:your-domain.com`. You can also specify a specific path, check the `did:web` [specifications](https://w3c-ccg.github.io/did-method-web/#optional-path-considerations) for this.
-
-    > More info on x5u: https://www.rfc-editor.org/rfc/rfc7517#section-4.6
-
+2. Create a new `.env` file with `PRIVATE_KEY`, `CERTIFICATE`, `VERIFICATION_METHOD`, `CONTROLLER` and `X5U_URL` as properties. Feel free to use the example file `example.env`.
 3. Install dependencies `npm i` and execute the script `node index.js` (node@16 or higher required).
    - Alternatively, the script can be run with docker
      1. Build the container with `docker build -t self-description-signer .`
