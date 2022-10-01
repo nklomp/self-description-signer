@@ -7,25 +7,29 @@
 
 1. Update the self description in `self-description.json`, replace it with your own. See details in the [Architecture Document](https://gaia-x.gitlab.io/policy-rules-committee/trust-framework/participant/)
 2. Create a new `.env` file in the `/config` directory with `PRIVATE_KEY`, `CERTIFICATE`, `CONTROLLER`, `VERIFICATION_METHOD` and `X5U_URL` as properties. Feel free to use the example file `example.env` located in the `/config` directory. You could quickly copy the file with the following command:
-    ```sh
-    cp config/example.env config/.env
-    ```
-    Make sure to provide your own values for the above mentioned properties in the newly created `.env` file.
 
-    **IMPORTANT:** You need to create your own `CERTIFICATE` and `PRIVATE_KEY` and put it into the created `/config/.env` file. This certificate needs to be issued by a Gaia-X endorsed trust anchor. You can find the list of endorsed trust anchors here: https://gaia-x.gitlab.io/policy-rules-committee/trust-framework/trust_anchors/  
+   ```sh
+   cp config/example.env config/.env
+   ```
 
-    **NOTE:** It is not sufficient to simply create create a new local key pair which is not issued by a trust anchor because verification will fail and the trust servcie won't sign your Self Description!
+   Make sure to provide your own values for the above mentioned properties in the newly created `.env` file.
 
-    > You can find more information on setting up your own certificate here: 
-    > - https://gitlab.com/gaia-x/lab/compliance/gx-compliance#how-to-setup-certificates
+   **IMPORTANT:** You need to create your own `CERTIFICATE` and `PRIVATE_KEY` and put it into the created `/config/.env` file. This certificate needs to be issued by a Gaia-X endorsed trust anchor. You can find the list of endorsed trust anchors here: https://gaia-x.gitlab.io/policy-rules-committee/trust-framework/trust_anchors/
 
-    `X5U_URL` - You need to generate a `.pem` file with the certificate chain of your certificate and upload it to your server (make it accessible via URI). You can find an example here: https://www.delta-dao.com/.well-known/x509CertificateChain.pem 
+   **NOTE:** It is not sufficient to simply create create a new local key pair which is not issued by a trust anchor because verification will fail and the trust servcie won't sign your Self Description!
 
-    You can use [whatsmychaincert.com](https://whatsmychaincert.com/) as a helper tool to generate your certificate chain using metadata from your certificate. Make sure to check "Include Root Certificate" checkbox.
+   > You can find more information on setting up your own certificate here:
+   >
+   > - https://gitlab.com/gaia-x/lab/compliance/gx-compliance#how-to-setup-certificates
 
-    `VERIFICATION_METHOD` - The `did:web` has to resolve to the path of your `did.json`. It defaults to `your-domain.com/.well-known/did.json` if you enter `did:web:your-domain.com`. You can also specify a specific path, check the `did:web` [specifications](https://w3c-ccg.github.io/did-method-web/#optional-path-considerations) for this.
+   `X5U_URL` - You need to generate a `.pem` file with the certificate chain of your certificate and upload it to your server (make it accessible via URI). You can find an example here: https://www.delta-dao.com/.well-known/x509CertificateChain.pem
 
-    > More info on x5u: https://www.rfc-editor.org/rfc/rfc7517#section-4.6
+   You can use [whatsmychaincert.com](https://whatsmychaincert.com/) as a helper tool to generate your certificate chain using metadata from your certificate. Make sure to check "Include Root Certificate" checkbox.
+
+   `VERIFICATION_METHOD` - The `did:web` has to resolve to the path of your `did.json`. It defaults to `your-domain.com/.well-known/did.json` if you enter `did:web:your-domain.com`. You can also specify a specific path, check the `did:web` [specifications](https://w3c-ccg.github.io/did-method-web/#optional-path-considerations) for this.
+
+   > More info on x5u: https://www.rfc-editor.org/rfc/rfc7517#section-4.6
+
 3. Install dependencies `npm i` and execute the script `node index.js` (node@16 or higher required).
    - Alternatively, the script can be run with docker
      1. Build the container with `docker build -t self-description-signer .`
@@ -37,44 +41,46 @@
    ```json
    {
      "selfDescriptionCredential": {
-       "@context": [
-         "https://www.w3.org/2018/credentials/v1",
-         "https://registry.gaia-x.eu/v2206/api/shape"
-       ],
-       "type": ["VerifiableCredential", "LegalPerson"],
-       "id": "https://compliance.gaia-x.eu/.well-known/participant.json",
-       "issuer": "did:web:compliance.gaia-x.eu",
-       "issuanceDate": "2022-09-23T23:23:23.235Z",
-       "credentialSubject": {
-         "id": "did:web:compliance.gaia-x.eu",
-         "gx-participant:name": "Gaia-X AISBL",
-         "gx-participant:legalName": "Gaia-X European Association for Data and Cloud AISBL",
-         "gx-participant:registrationNumber": {
-           "gx-participant:registrationNumberType": "local",
-           "gx-participant:registrationNumberNumber": "0762747721"
-         },
-         "gx-participant:headquarterAddress": {
-           "gx-participant:addressCountryCode": "BE",
-           "gx-participant:addressCode": "BE-BRU",
-           "gx-participant:street-address": "Avenue des Arts 6-9",
-           "gx-participant:postal-code": "1210"
-         },
-         "gx-participant:legalAddress": {
-           "gx-participant:addressCountryCode": "BE",
-           "gx-participant:addressCode": "BE-BRU",
-           "gx-participant:street-address": "Avenue des Arts 6-9",
-           "gx-participant:postal-code": "1210"
-         },
-         "gx-participant:termsAndConditions": "70c1d713215f95191a11d38fe2341faed27d19e083917bc8732ca4fea4976700"
-       },
-       "proof": {
-         "type": "JsonWebSignature2020",
-         "created": "2022-09-25T22:28:48.408Z",
-         "proofPurpose": "assertionMethod",
-         "verificationMethod": "did:web:compliance.gaia-x.eu",
-         "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..GpHT0twTcvRG11eH8YdGTzTgYf6jZYH2VncPIzOPnYaoRIB1tdYDHI0H8S1wU81ll-sYdDepWP5fbTN-ah_6SbD2J_QaCBt22hKtSrWumST6gaBXN_sntASwdnLaYmauNoePRDh-mZapjc40a4ckHVasaxgJ6NrnLhoUCDH33IGjWn5tC3qtntxhUpgiyCgxZvsDTmzoY4JdEp-9lG_xdFJOpUSIzEbuGYXa_Gmc0qmODELiZH7G9-AxmYh69vOopaQEAzUGrHcoHRtNN0iM8DcwmmZoWdGW5v_4qqnQvjB6bncHwFknC-L7UYV62uezA8HiS2T_9zrCiQW6U-GTAg"
-       }
-     }
+        "@context": [
+            "https://www.w3.org/2018/credentials/v1",
+            "https://registry.gaia-x.eu/v2206/api/shape"
+        ],
+        "type": [
+            "VerifiableCredential",
+            "LegalPerson"
+        ],
+        "id": "https://compliance.gaia-x.eu/.well-known/participant.json",
+        "issuer": "did:web:compliance.gaia-x.eu",
+        "issuanceDate": "2022-09-23T23:23:23.235Z",
+        "credentialSubject": {
+            "id": "did:web:compliance.gaia-x.eu",
+            "gx-participant:name": "Gaia-X AISBL",
+            "gx-participant:legalName": "Gaia-X European Association for Data and Cloud AISBL",
+            "gx-participant:registrationNumber": {
+                "gx-participant:registrationNumberType": "local",
+                "gx-participant:registrationNumberNumber": "0762747721"
+            },
+            "gx-participant:headquarterAddress": {
+                "gx-participant:addressCountryCode": "BE",
+                "gx-participant:addressCode": "BE-BRU",
+                "gx-participant:streetAddress": "Avenue des Arts 6-9",
+                "gx-participant:postalCode": "1210"
+            },
+            "gx-participant:legalAddress": {
+                "gx-participant:addressCountryCode": "BE",
+                "gx-participant:addressCode": "BE-BRU",
+                "gx-participant:streetAddress": "Avenue des Arts 6-9",
+                "gx-participant:postalCode": "1210"
+            },
+            "gx-participant:termsAndConditions": "70c1d713215f95191a11d38fe2341faed27d19e083917bc8732ca4fea4976700"
+        },
+        "proof": {
+            "type": "JsonWebSignature2020",
+            "created": "2022-10-01T13:02:09.771Z",
+            "proofPurpose": "assertionMethod",
+            "verificationMethod": "did:web:compliance.gaia-x.eu",
+            "jws": "eyJhbGciOiJSUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..XQqRvvuxW1xHUy_eRzOk4LwyjwlRofg0JBiO0nrWGHAjwMA87OVJ37mB6GylgEttEaUjXQV-QmbGfEnE-YQf5S7B-id9Lld-CC-vW8M-2EvXh3oQp3l5W35mvvdVQXBj16LLskQZpfZGRHM0hn7zGEw24fDc_tLaGoNR9LQ6UzmSrHMwFFVWz6XH3RoG-UY0aZDpnAxjpWxUWaa_Jzf65bfNlx2EdSv3kIKKYJLUlQTk0meuFDD23VrkGStQTGQ8GijY3BNo6QWw889tt5YKWtiSZjbDYYHsVCwMzPoKT0hVJ1wy2ve6pJ4MSYfhiMxoDq6YBOm-oYKYfBeN22fjqQ"
+        }
    }
    ```
 
@@ -133,40 +139,40 @@
          "gx-participant:headquarterAddress": {
            "gx-participant:addressCountryCode": "BE",
            "gx-participant:addressCode": "BE-BRU",
-           "gx-participant:street-address": "Avenue des Arts 6-9",
-           "gx-participant:postal-code": "1210"
+           "gx-participant:streetAddress": "Avenue des Arts 6-9",
+           "gx-participant:postalCode": "1210"
          },
          "gx-participant:legalAddress": {
            "gx-participant:addressCountryCode": "BE",
            "gx-participant:addressCode": "BE-BRU",
-           "gx-participant:street-address": "Avenue des Arts 6-9",
-           "gx-participant:postal-code": "1210"
+           "gx-participant:streetAddress": "Avenue des Arts 6-9",
+           "gx-participant:postalCode": "1210"
          },
          "gx-participant:termsAndConditions": "70c1d713215f95191a11d38fe2341faed27d19e083917bc8732ca4fea4976700"
        },
        "proof": {
          "type": "JsonWebSignature2020",
-         "created": "2022-09-25T22:28:48.408Z",
+         "created": "2022-10-01T13:02:09.771Z",
          "proofPurpose": "assertionMethod",
          "verificationMethod": "did:web:compliance.gaia-x.eu",
-         "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..GpHT0twTcvRG11eH8YdGTzTgYf6jZYH2VncPIzOPnYaoRIB1tdYDHI0H8S1wU81ll-sYdDepWP5fbTN-ah_6SbD2J_QaCBt22hKtSrWumST6gaBXN_sntASwdnLaYmauNoePRDh-mZapjc40a4ckHVasaxgJ6NrnLhoUCDH33IGjWn5tC3qtntxhUpgiyCgxZvsDTmzoY4JdEp-9lG_xdFJOpUSIzEbuGYXa_Gmc0qmODELiZH7G9-AxmYh69vOopaQEAzUGrHcoHRtNN0iM8DcwmmZoWdGW5v_4qqnQvjB6bncHwFknC-L7UYV62uezA8HiS2T_9zrCiQW6U-GTAg"
+         "jws": "eyJhbGciOiJSUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..XQqRvvuxW1xHUy_eRzOk4LwyjwlRofg0JBiO0nrWGHAjwMA87OVJ37mB6GylgEttEaUjXQV-QmbGfEnE-YQf5S7B-id9Lld-CC-vW8M-2EvXh3oQp3l5W35mvvdVQXBj16LLskQZpfZGRHM0hn7zGEw24fDc_tLaGoNR9LQ6UzmSrHMwFFVWz6XH3RoG-UY0aZDpnAxjpWxUWaa_Jzf65bfNlx2EdSv3kIKKYJLUlQTk0meuFDD23VrkGStQTGQ8GijY3BNo6QWw889tt5YKWtiSZjbDYYHsVCwMzPoKT0hVJ1wy2ve6pJ4MSYfhiMxoDq6YBOm-oYKYfBeN22fjqQ"
        }
      },
      "complianceCredential": {
        "@context": ["https://www.w3.org/2018/credentials/v1"],
        "type": ["VerifiableCredential", "ParticipantCredential"],
-       "id": "https://catalogue.gaia-x.eu/credentials/ParticipantCredential/1664144933260",
+       "id": "https://catalogue.gaia-x.eu/credentials/ParticipantCredential/1664629337488",
        "issuer": "did:web:compliance.gaia-x.eu",
-       "issuanceDate": "2022-09-25T22:28:53.260Z",
+       "issuanceDate": "2022-10-01T13:02:17.489Z",
        "credentialSubject": {
          "id": "did:web:compliance.gaia-x.eu",
-         "hash": "44166d1e997147db7fcbb3a8d201af9bf830a291b1e8837954017f5440785ede"
+         "hash": "3280866b1b8509ce287850fb113dc76d1334959c759f82a57415164d7a3a4026"
        },
        "proof": {
          "type": "JsonWebSignature2020",
-         "created": "2022-09-25T22:28:53.260Z",
+         "created": "2022-10-01T13:02:17.489Z",
          "proofPurpose": "assertionMethod",
-         "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..s4rOWCaRZ9Ycc1N85vMo2PnHQJVGNM2xNVW2L1VksGzL8I3NQbZWpppwq1eGfbLGGGs0vS4IO-LpuVpCtJpnjdW98nmgxk1zugG-Y9sYqCk79mFDFNIdzMCYrl9IZU4jiOKzttd_5lkQdsPihJ7up4vuTiRfExK7CllMvEx8YIREPya_OxhpTy8JbRWfUXgJyxrRpCI1KWyp1ldRuiO0ApRVk_VGUWqCCrOAxnIBTIXuTdfd3xPjGVcG6HuKJ4I819WHCvG_fm1L6PrKYx4JTr9w9OzO0eGXPw4s8oMshJVS4kI39rcY5cLaf7b6sehLgJXGZkY1_zNM2EmSy1zj4w",
+         "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..YQAIjkqX6OL4U3efV0zumn8-l8c4wQo98SOSlzt53HOR8qlLu5L5lmwZJnAsR7gKW-6jv5GBT0X4ORQ1ozLvihFj6eaxxJNgzLFPoH5w9UEaEIO8mMGyeQ-YQYWBbET3IK1mcHm2VskEsvpLvQGnk6kYJCXJzmaHMRSF3WOjNq_JWN8g-SldiGhgfKsJvIkjCeRm3kCt_UVeHMX6SoLMFDjI8JVxD9d5AG-kbK-xb13mTMdtbcyBtBJ_ahQcbNaxH-CfSDTSN51szLJBG-Ok-OlMagHY_1dqViXAKl4T5ShoS9fjxQItJvFPGA14axkY6s00xKVCUusi31se6rxC9g",
          "verificationMethod": "did:web:compliance.gaia-x.eu"
        }
      }
