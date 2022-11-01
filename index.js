@@ -44,13 +44,13 @@ async function sign(hash) {
 
   try {
     const jws = await new jose.CompactSign(new TextEncoder().encode(hash))
-            .setProtectedHeader({alg: 'PS256', b64: false, crit: ['b64']})
-            .sign(rsaPrivateKey)
-  } catch (error) {
-    console.log(error)
-  }
+      .setProtectedHeader({ alg: 'PS256', b64: false, crit: ['b64'] })
+      .sign(rsaPrivateKey)
 
-  return jws
+    return jws
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 async function createProof(hash) {
