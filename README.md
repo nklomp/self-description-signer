@@ -2,6 +2,7 @@
 
 - [How To Use](#how-to-use)
 - [How it Works](#how-it-works)
+- [Environment variables for self-issued certificates (This is for test-setups only)](#environment-variables-for-self-issued-certificates-this-is-for-test-setups-only)
 
 ## How To Use
 
@@ -184,3 +185,22 @@
 1. The given Self Description is canonized with [URDNA2015](https://json-ld.github.io/rdf-dataset-canonicalization/spec/)
 2. Next the canonized output is hashed with [SHA256](https://json-ld.github.io/rdf-dataset-canonicalization/spec/#dfn-hash-algorithm).
 3. That hash is then signed with the given private key and the proof is created using [JsonWebKey2020](https://w3c-ccg.github.io/lds-jws2020/#json-web-signature-2020).
+
+## Environment variables for self-issued certificates (This is for test-setups only)
+
+> This section is part of a bigger guide and describes environment variables needed to sign self-issued certificates. If you want to use the https://compliance.gaia-x.eu follow the instructions above and ignore this section.
+> Here you can find the full guide for a local test-setup: [Using self-issued certificates for local testing](https://gitlab.com/gaia-x/lab/compliance/gx-compliance/-/tree/main#using-self-issued-certificates-for-local-testing)
+
+How to set signer tool environment variables:
+
+- `PRIVATE_KEY` = copy `pk8key.pem` content
+- `CERTIFICATE ` = copy `cert.pem` content
+- `VERIFICATION_METHOD` = `did:web:localhost%3A3000` (assuming port `3000` for the compliance service, you have to encode `:` as `%3A`)
+- `X5U_URL` = `https://localhost:3000/.well-known/x509CertificateChain.pem`
+- `BASE_URL` = `https://localhost:3000`
+
+More information about environment variables can be found in the [How To Use](#how-to-use) section.
+
+For now you can ignore the generated `did.json` since we are using for simplicity reasons the `did.json` of the compliance service also for the self-description. Usually you would host it under your own domain together with the `x509CertificateChain.pem` in the `.well-known/` directory.
+
+If everything worked you should have 3 files generated. You can now head back to "Step 4: Verify your signed self-description" of the guide.
