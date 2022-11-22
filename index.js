@@ -10,7 +10,7 @@ const SD_PATH = process.argv.slice(2)[0] || CONF + 'self-description.json'
 const selfDescription = require(SD_PATH)
 const CURRENT_TIME = new Date().getTime()
 const BASE_URL = process.env.BASE_URL || 'https://compliance.gaia-x.eu'
-const API_VERSION = process.env.API_VERSION || '2206'
+const API_VERSION = process.env.API_VERSION
 
 const OUTPUT_DIR = process.argv.slice(2)[1] || './output/'
 createOutputFolder(OUTPUT_DIR)
@@ -21,7 +21,7 @@ const TYPE_API_ATH = {
 }
 
 function getApiVersionedUrl() {
-  return `${BASE_URL}/v${API_VERSION}/api`
+  return `${BASE_URL}${API_VERSION ? '/v'+ API_VERSION : ''}/api`
 }
 
 async function canonize(selfDescription) {
