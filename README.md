@@ -197,7 +197,7 @@ How to set signer tool environment variables:
 - `CERTIFICATE ` = copy `cert.pem` content
 - `DID` = `did:web:localhost%3A3000` (assuming port `3000` for the compliance service, you have to encode `:` as `%3A`)
 - `CONTROLLER` = `did:web:localhost%3A3000` (assuming port `3000` for the compliance service, you have to encode `:` as `%3A`)
-- `VERIFICATION_METHOD` = `did:web:localhost%3A3000#X509` The Verification Method (Public Key) identifier. Needs to include the value from `DID` suffixed with `#` and then the actual Verification Method ID
+- `VERIFICATION_METHOD` = `did:web:localhost%3A3000#JWK2020-RSA` The Verification Method (Public Key) identifier. Needs to include the value from `DID` suffixed with `#` and then the actual Verification Method ID
 - `X5U_URL` = `https://localhost:3000/.well-known/x509CertificateChain.pem`
 - `BASE_URL` = `https://localhost:3000`
 
