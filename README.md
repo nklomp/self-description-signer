@@ -51,10 +51,10 @@
             "LegalPerson"
         ],
         "id": "https://compliance.gaia-x.eu/.well-known/participant.json",
-        "issuer": "did:web:compliance.gaia-x.eu",
+        "issuer": "did:web:example.com",
         "issuanceDate": "2022-09-23T23:23:23.235Z",
         "credentialSubject": {
-            "id": "did:web:compliance.gaia-x.eu",
+            "id": "did:web:example.com",
             "gx-participant:name": "Gaia-X AISBL",
             "gx-participant:legalName": "Gaia-X European Association for Data and Cloud AISBL",
             "gx-participant:registrationNumber": {
@@ -79,7 +79,7 @@
             "type": "JsonWebSignature2020",
             "created": "2022-10-01T13:02:09.771Z",
             "proofPurpose": "assertionMethod",
-            "verificationMethod": "did:web:compliance.gaia-x.eu",
+            "verificationMethod": "did:web:example.com#JWK2020-RSA",
             "jws": "eyJhbGciOiJSUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..XQqRvvuxW1xHUy_eRzOk4LwyjwlRofg0JBiO0nrWGHAjwMA87OVJ37mB6GylgEttEaUjXQV-QmbGfEnE-YQf5S7B-id9Lld-CC-vW8M-2EvXh3oQp3l5W35mvvdVQXBj16LLskQZpfZGRHM0hn7zGEw24fDc_tLaGoNR9LQ6UzmSrHMwFFVWz6XH3RoG-UY0aZDpnAxjpWxUWaa_Jzf65bfNlx2EdSv3kIKKYJLUlQTk0meuFDD23VrkGStQTGQ8GijY3BNo6QWw889tt5YKWtiSZjbDYYHsVCwMzPoKT0hVJ1wy2ve6pJ4MSYfhiMxoDq6YBOm-oYKYfBeN22fjqQ"
         }
    }
@@ -166,7 +166,7 @@
        "issuer": "did:web:compliance.gaia-x.eu",
        "issuanceDate": "2022-10-01T13:02:17.489Z",
        "credentialSubject": {
-         "id": "did:example.com",
+         "id": "did:web:example.com",
          "hash": "3280866b1b8509ce287850fb113dc76d1334959c759f82a57415164d7a3a4026"
        },
        "proof": {
@@ -174,7 +174,7 @@
          "created": "2022-10-01T13:02:17.489Z",
          "proofPurpose": "assertionMethod",
          "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..YQAIjkqX6OL4U3efV0zumn8-l8c4wQo98SOSlzt53HOR8qlLu5L5lmwZJnAsR7gKW-6jv5GBT0X4ORQ1ozLvihFj6eaxxJNgzLFPoH5w9UEaEIO8mMGyeQ-YQYWBbET3IK1mcHm2VskEsvpLvQGnk6kYJCXJzmaHMRSF3WOjNq_JWN8g-SldiGhgfKsJvIkjCeRm3kCt_UVeHMX6SoLMFDjI8JVxD9d5AG-kbK-xb13mTMdtbcyBtBJ_ahQcbNaxH-CfSDTSN51szLJBG-Ok-OlMagHY_1dqViXAKl4T5ShoS9fjxQItJvFPGA14axkY6s00xKVCUusi31se6rxC9g",
-         "verificationMethod": "did:web:compliance.gaia-x.eu"
+         "verificationMethod": "did:web:compliance.gaia-x.eu#X509-JWK2020"
        }
      }
    }
