@@ -12,8 +12,10 @@ const CURRENT_TIME = new Date().getTime()
 const BASE_URL = process.env.BASE_URL || 'https://compliance.gaia-x.eu'
 const API_VERSION = process.env.API_VERSION
 
+const VM_ID = process.env.VERIFICATION_METHOD ?? `${process.env.DID}#JWK2020-RSA`
+
 const OUTPUT_DIR = process.argv.slice(2)[1] || './output/'
-createOutputFolder(OUTPUT_DIR)
+await createOutputFolder(OUTPUT_DIR)
 
 const TYPE_API_ATH = {
   ServiceOfferingExperimental: 'service-offering',
@@ -58,8 +60,7 @@ async function createProof(hash) {
     type: 'JsonWebSignature2020',
     created: new Date(CURRENT_TIME).toISOString(),
     proofPurpose: 'assertionMethod',
-    verificationMethod:
-      process.env.VERIFICATION_METHOD ?? 'did:web:compliance.lab.gaia-x.eu',
+    verificationMethod: VM_ID ?? 'did:web:compliance.lab.gaia-x.eu',
     jws: await sign(hash),
   }
 
@@ -108,19 +109,20 @@ async function createDIDFile() {
   publicKeyJwk.alg = algorithm
   publicKeyJwk.x5u = process.env.X5U_URL
 
+
   const did = {
     '@context': ['https://www.w3.org/ns/did/v1'],
-    id: process.env.VERIFICATION_METHOD,
+    id: process.env.DID,
     verificationMethod: [
       {
         '@context': 'https://w3c-ccg.github.io/lds-jws2020/contexts/v1/',
-        id: process.env.VERIFICATION_METHOD,
+        id: VM_ID,
         type: 'JsonWebKey2020',
-        controller: process.env.CONTROLLER,
+        controller: process.env.CONTROLLER ?? process.env.DID,
         publicKeyJwk,
       },
     ],
-    assertionMethod: [process.env.VERIFICATION_METHOD + '#JWK2020-RSA'],
+    assertionMethod: [VM_ID],
   }
 
   const data = JSON.stringify(did, null, 2)
@@ -224,4 +226,4 @@ async function main() {
   }
 }
 
-main()
+await main()

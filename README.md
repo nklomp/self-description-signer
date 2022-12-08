@@ -7,7 +7,7 @@
 ## How To Use
 
 1. Update the self description in `self-description.json`, replace it with your own. See details in the [Architecture Document](https://gaia-x.gitlab.io/policy-rules-committee/trust-framework/participant/)
-2. Create a new `.env` file in the `/config` directory with `PRIVATE_KEY`, `CERTIFICATE`, `CONTROLLER`, `VERIFICATION_METHOD` and `X5U_URL` as properties. Feel free to use the example file `example.env` located in the `/config` directory. You could quickly copy the file with the following command:
+2. Create a new `.env` file in the `/config` directory with `PRIVATE_KEY`, `CERTIFICATE`, `DID`, `X5U_URL` and optionally `CONTROLLER`, `VERIFICATION_METHOD` as properties. Feel free to use the example file `example.env` located in the `/config` directory. You could quickly copy the file with the following command:
 
    ```sh
    cp config/example.env config/.env
@@ -85,20 +85,20 @@
    }
    ```
 
-5. In addition, a `did.json` will be created based on the provided `CERTIFICATE` and `VERIFICATION_METHOD`
+5. In addition, a `did.json` will be created based on the provided `CERTIFICATE`, `DID` and optional `CONTROLLER` and `VERIFICATION_METHOD`
 
    **Example `did.json`:**
 
    ```json
    {
      "@context": ["https://www.w3.org/ns/did/v1"],
-     "id": "did:web:compliance.gaia-x.eu",
+     "id": "did:web:example.com",
      "verificationMethod": [
        {
          "@context": "https://w3c-ccg.github.io/lds-jws2020/contexts/v1/",
-         "id": "did:web:compliance.gaia-x.eu",
+         "id": "did:web:example.com#JWK2020-RSA",
          "type": "JsonWebKey2020",
-         "controller": "did:web:compliance.gaia-x.eu#JWK2020-RSA",
+         "controller": "did:web:example.com",
          "publicKeyJwk": {
            "kty": "RSA",
            "n": "ulmXEa0nehbR338h6QaWLjMqfXE7mKA9PXoC_6_8d26xKQuBKAXa5k0uHhzQfNlAlxO-IpCDgf9cVzxIP-tkkefsjrXc8uvkdKNK6TY9kUxgUnOviiOLpHe88FB5dMTH6KUUGkjiPfq3P0F9fXHDEoQkGSpWui7eD897qSEdXFre_086ns3I8hSVCxoxlW9guXa_sRISIawCKT4UA3ZUKYyjtu0xRy7mRxNFh2wH0iSTQfqf4DWUUThX3S-jeRCRxqOGQdQlZoHym2pynJ1IYiiIOMO9L2IQrQl35kx94LGHiF8r8CRpLrgYXTVd9U17-nglrUmJmryECxW-555ppQ",
@@ -108,7 +108,7 @@
          }
        }
      ],
-     "assertionMethod": ["did:web:compliance.gaia-x.eu#JWK2020-RSA"]
+     "assertionMethod": ["did:web:example.com#JWK2020-RSA"]
    }
    ```
 
@@ -127,10 +127,10 @@
        ],
        "type": ["VerifiableCredential", "LegalPerson"],
        "id": "https://compliance.gaia-x.eu/.well-known/participant.json",
-       "issuer": "did:web:compliance.gaia-x.eu",
+       "issuer": "did:web:example.com",
        "issuanceDate": "2022-09-23T23:23:23.235Z",
        "credentialSubject": {
-         "id": "did:web:compliance.gaia-x.eu",
+         "id": "did:web:example.com",
          "gx-participant:name": "Gaia-X AISBL",
          "gx-participant:legalName": "Gaia-X European Association for Data and Cloud AISBL",
          "gx-participant:registrationNumber": {
@@ -155,7 +155,7 @@
          "type": "JsonWebSignature2020",
          "created": "2022-10-01T13:02:09.771Z",
          "proofPurpose": "assertionMethod",
-         "verificationMethod": "did:web:compliance.gaia-x.eu",
+         "verificationMethod": "did:web:example.com#JWK2020-RSA",
          "jws": "eyJhbGciOiJSUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..XQqRvvuxW1xHUy_eRzOk4LwyjwlRofg0JBiO0nrWGHAjwMA87OVJ37mB6GylgEttEaUjXQV-QmbGfEnE-YQf5S7B-id9Lld-CC-vW8M-2EvXh3oQp3l5W35mvvdVQXBj16LLskQZpfZGRHM0hn7zGEw24fDc_tLaGoNR9LQ6UzmSrHMwFFVWz6XH3RoG-UY0aZDpnAxjpWxUWaa_Jzf65bfNlx2EdSv3kIKKYJLUlQTk0meuFDD23VrkGStQTGQ8GijY3BNo6QWw889tt5YKWtiSZjbDYYHsVCwMzPoKT0hVJ1wy2ve6pJ4MSYfhiMxoDq6YBOm-oYKYfBeN22fjqQ"
        }
      },
@@ -166,7 +166,7 @@
        "issuer": "did:web:compliance.gaia-x.eu",
        "issuanceDate": "2022-10-01T13:02:17.489Z",
        "credentialSubject": {
-         "id": "did:web:compliance.gaia-x.eu",
+         "id": "did:example.com",
          "hash": "3280866b1b8509ce287850fb113dc76d1334959c759f82a57415164d7a3a4026"
        },
        "proof": {
@@ -195,7 +195,9 @@ How to set signer tool environment variables:
 
 - `PRIVATE_KEY` = copy `pk8key.pem` content
 - `CERTIFICATE ` = copy `cert.pem` content
-- `VERIFICATION_METHOD` = `did:web:localhost%3A3000` (assuming port `3000` for the compliance service, you have to encode `:` as `%3A`)
+- `DID` = `did:web:localhost%3A3000` (assuming port `3000` for the compliance service, you have to encode `:` as `%3A`)
+- `CONTROLLER` = `did:web:localhost%3A3000` (assuming port `3000` for the compliance service, you have to encode `:` as `%3A`)
+- `VERIFICATION_METHOD` = `did:web:localhost%3A3000#X509` The Verification Method (Public Key) identifier. Needs to include the value from `DID` suffixed with `#` and then the actual Verification Method ID
 - `X5U_URL` = `https://localhost:3000/.well-known/x509CertificateChain.pem`
 - `BASE_URL` = `https://localhost:3000`
 
